@@ -16,7 +16,7 @@
 
     public function addUser($nom,$prenom,$photo,$passwords,$roles,$matricule,$confpasswords,$email,$date_inscription){
         $etat = 0;
-        $date_inscription= date()
+        $date_inscription= date();
         try {
 
             $sql=$this->db->prepare('INSERT INTO `user` ( `nom`, `prenom`, `photo`, `passwords`,`confpasswords`,`roles`,`matricule`,`email`,`etat`,`date_inscription`)

@@ -50,67 +50,62 @@
     <div class="container d-flex justify-content-center mt-4">
         <div class="col-md-8  mt-4">
             <br>
-                <nav class="navbar navbar-dark bg-dark mt-4">
-                    <div class="container-fluid">
-                        <a class="navbar-brand text text-center pe-none" href="#">
+                <nav class="navbar navbar-dark bg-success mt-4">
+                    <div class="container-fluid d-flex justify-content-center">
+                        <a class="navbar-brand pe-none" href="#">
 <!--                         <img src="../img/ecole_reussite.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
- -->                        INSCRIPTION
+ -->                       <b> INSCRIPTION</b>
                         </a>
                     </div>
                 </nav>
 
-                <form class="row g-1 d-flex justify-content-center no-wrap m-2  bg-light needs-validation" novalidate action="inscription.php" method="post" >
+                <form class="row g-3 d-flex justify-content-center no-wrap m-2  bg-transparent needs-validation" novalidate action="inscription.php" method="post" >
                     <div class="col-md-6 ">
-                        <label for="input1" class="form-label">Nom</label>
-                        <input type='text' name='nom' placeholder="nom" class="form-control" id="validationServer01" required>
+                        <label for="input1" class="form-label">NOM</label>
+                        <input type='text' name='nom' placeholder="nom" class="form-control border-dark p-3" id="validationServer01" required>
                         <div class="valid-feedback" id="validationServer01"></div>
                         <div  class="invalid-feedback" id="validationServer01">Champ invalide</div>
                     </div>
                     <div class="col-md-6">
-                        <label for="input2" class="form-label">Prenom</label>
-                        <input type="text" class="form-control" name="prenom" placeholder="prenom" id="validationServer02" required>
+                        <label for="input2" class="form-label">PRENOM</label>
+                        <input type="text" class="form-control border-dark p-3" name="prenom" placeholder="prenom" id="validationServer02" required>
                         <div class="valid-feedback"> </div>
                         <div  class="invalid-feedback">Champ invalide</div>
                     </div>
                    
                     <div class="col-md-6">
-                        <label for="input3" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" placeholder="email" id="validationServer03" required>
-                        <div class="valid-feedback"></div>
-                        <div  class="invalid-feedback">Champ invalide</div>
-                    </div>
-                    <!-- <div class="col-md-6">
-                        <label for="input4" class="form-label">Lieu_naissance</label>
-                        <input type="text" name="lieu_naissance" onchange='return clkform2()' placeholder="lieu_naissance" class="form-control" id="validationServer04" required>
-                        <div class="valid-feedback"></div>
-                        <div  class="invalid-feedback">Champ invalide</div>
-                    </div> -->
-                    <!-- <div class="col-md-6">
-                        <label for="input5" class="form-label">Username</label>
-                        <input type="text" name="username" placeholder="username" class="form-control" id="validationServer05" required>
-                        <div class="valid-feedback"></div>
-                        <div  class="invalid-feedback">Champ invalide</div>
-                    </div> -->
-                    <div class="col-md-6">
-                        <label for="input6" class="form-label">Password</label>
-                        <input type="password" class="form-control" name="passwords" placeholder="password" id="validationServer06" required>
+                        <label for="input3" class="form-label">E-MAIL</label>
+                        <input type="email" class="form-control border-dark p-3" name="email" placeholder="email" id="validationServer03" required>
                         <div class="valid-feedback"></div>
                         <div  class="invalid-feedback">Champ invalide</div>
                     </div>
                     <div class="col-md-6">
-                        <label for="input6" class="form-label">Password</label>
-                        <input type="password" class="form-control" name="passwords" placeholder="password" id="validationServer06" required>
+                        <label for="input6" class="form-label">AJOUTER IMAGE</label>
+                        <input type="file" class="form-control border-dark p-3" name="passwords" placeholder="password" id="validationServer06" required>
                         <div class="valid-feedback"></div>
                         <div  class="invalid-feedback">Champ invalide</div>
                     </div>
                     <div class="col-md-6">
-                        <label for="input7" class="form-label">Age</label>
-                        <input type="text" name="age" onchange="checkAge()" placeholder="age" class="form-control age" id="validationServer07" required>
+                        <label for="input6" class="form-label">MOT de PASSE</label>
+                        <input type="password" class="form-control border-dark p-3" name="passwords" placeholder="password" id="validationServer06" required>
                         <div class="valid-feedback"></div>
                         <div  class="invalid-feedback">Champ invalide</div>
-                        <div  class="invalid-age" style="display: none;">Age invalide</div>
                     </div>
-
+                    <div class="col-md-6">
+                        <label for="input6" class="form-label">CONFIRME MOT de PASSE</label>
+                        <input type="password" class="form-control border-dark p-3" name="passwords" placeholder="password" id="validationServer06" required>
+                        <div class="valid-feedback"></div>
+                        <div  class="invalid-feedback">Champ invalide</div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label for="input9" class="form-label">RÔLE</label>
+                        <select name="sexe" id="roles" class="form-select is-valid border-dark p-3" id="validationServer10" required>
+                            <option selected disabled value="">Choisir...</option>
+                            <option value="m" name='dmin'>ADMINISTRATEUR (E)</option>
+                            <option value="f" name='employe'>EMPLOYÉ</option>
+                        </select>
+                    </div>
                    
                     <div class="row d-flex justify-content-center mt-2">
                         <button type="submit" class="btn btn-success col-3" onclick="hideMsg()">
@@ -124,7 +119,7 @@
         
                     <span class="text text-center mt-2">
                         <p>Vous avez un compte?
-                            <a href="../index.php" style="text-decoration:none;"> connectez-vous</a>
+                            <a href="connexion.php" style="text-decoration:none;"> connectez-vous</a>
                         </p>
                     </span>
                 </form> 
