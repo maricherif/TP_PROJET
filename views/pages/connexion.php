@@ -1,5 +1,22 @@
+<?php
+require "../../model/model.php";
+// var_dump($_POST);
 
- 
+if (isset($_POST['email'], $_POST['passwords'])) {
+    $requeste = new ModelUser();
+    
+    $email = $_POST['email'];
+    $passwords = md5($_POST['passwords']);
+//    var_dump($passwords);die;
+
+    $requeste->connecter($email, $passwords);
+}
+/* if (isset($_SESSION['roles'])) {
+    if($_SESSION['roles'] =='admin'){
+        header('location:admin.php'); */
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +31,7 @@
 
 <body>
 
-    <div class=" container d-flex justify-content-center mt-5   ">
+    <div class=" container d-flex justify-content-center mt-5">
         <div class="col-md-8 ">
 
             <div class="d-flex justify-content-center mt-5 ">
@@ -23,31 +40,29 @@
                     <nav class="navbar navbar-dark bg-success">
                         <div class="container d-flex justify-content-center">
                             <a class="navbar-brand" href="#">
-<!--                                 <img src="img/ecole_reussite.png" alt="" width="40" height="24">
- -->                                <span class=""> <b>CONNEXION </b> </span>
+                                <span class=""> <b>CONNEXION </b> </span>
                             </a>
-                                
-                        </div>      
+                        
                     </nav>
 
                     <div class="col-md-12 p-3">
                         <label for="input1">E-MAIL</label>
-                        <input id="username" class="form-control border-dark p-3 " type='text' name='E-MAIL' required placeholder="nom d'utilisateur ">
-                        <span class="erreur" aria-live="polite"></span>
+                        <input id="email" class="form-control border-dark p-3 " type='text' name='email' required placeholder=" Email ">
+                        <div class="invalid-feedback d-none" id="erreur_email">Email est obligatoire</div>
+                        <div class="invalid-feedback d-none" id="erreur_email2">entrez un format valide</div>
                     </div>
 
                     <div class="col-md-12 p-3 ">
                         <label for="input2">Mot de Passe</label>
-                        <input id="passwords" class="form-control border-dark p-3" type="password" name="MOT de Passe" required placeholder="mot de passe">
+                        <input id="passwords" class="form-control border-dark p-3" type="password" name="passwords" required placeholder="mot de passe">
+                        <div class="invalid-feedback d-none" id="erreur_passwords">mot de passe est obligatoire</div>
+
                     </div>
 
                     <div class="row d-flex justify-content-center mt-2">
-                        <button type="submit" onclick="return btnLoad()" class="btn btn-success col-3">
-                            <i class="spinOff">Connexion</i>
-                            <i class="spinOn" style="display: none">
-                                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                                Loading...
-                            </i>
+                        <button type="submit" class="btn btn-success col-3" id="submit">
+                            Connexion
+
                         </button>
 
                     </div>
@@ -62,7 +77,7 @@
         </div>
 
     </div>
-    <script src="pages/js/connection.js"></script>
+    <script src="connexion.js"></script>
 
 
 </body>

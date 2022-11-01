@@ -1,3 +1,6 @@
+<?php
+require "../../model/model.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <title>page admin</title>
+    <title>page user</title>
 </head>
 
 <body>
@@ -26,11 +29,6 @@
                             <a href="connexion.php">
 
                                 <button type="button" class="btn btn-outline-success"> <img src="../img/deconect.png" alt="deconnecter" width="30">Deconnecter</button></a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="connexion.php">
-
-                                <button type="button" class="btn btn-outline-success"> <img src="../img/dearchiv.png" alt="deconnecter" width="30">Liste des archives </button></a>
                         </li>
                     </ul>
                     <form class="d-flex">
@@ -52,48 +50,34 @@
                         <th scope="col">EMAIL</th>
                         <th scope="col">RÔLE</th>
                         <th scope="col">MATRICULE</th>
-                        <th scope="col">ACTION</th>
                     </tr>
                 </thead>
                 <tbody class="border border-dark">
                     <tr>
-                        <td>Mark</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>
-                           <a href=""><img src="../img/edit.png" alt="" width="30"></a>
-                          <a href=""><img src="../img/archiv.png" alt="" width="30"></a>
-                           <a href=""><img src="../img/change.png" alt="" width="30"></a>
-                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      
 
 
                     </tr>
                     <tr>
-                        <td>Mark</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>@mdo</td>
-                        <td>
-                         <a href="">  <img src="../img/edit.png" alt="" width="30"></a>
-                          <a href=""> <img src="../img/archiv.png" alt="" width="30"></a>
-                          <a href=""> <img src="../img/change.png" alt="" width="30"></a>
-                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+    
 
                     </tr>
                     <tr>
-                        <td>Mark</td>
-                        <td>makk</td>
-                        <td>Larry the Bird</td>
-                        <td>@twitter</td>
-                        <td>@mdo</td>
-                        <td>
-                           <a href=""> <img src="../img/edit.png" alt="" width="30"></a>
-                            <a href=""><img src="../img/archiv.png" alt="" width="30"></a>
-                           <a href=""><img src="../img/change.png" alt="" width="30"></a>
-                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     
 
                     </tr>
@@ -103,17 +87,17 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item disabled">
-                    <a class="page-link text-dark" href="#" tabindex="-1" aria-disabled="true"><img src="../img/precedent.png" alt="" width="15"></a>
+                <a class="page-link text-dark" href="#" tabindex="-1" aria-disabled="true"><img src="../img/precedent.png" alt="" width="20"></a>
                 </li>
                 <li class="page-item"><a class="page-link text-dark text-dark" href="#">1</a></li>
                 <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
-                <a class="page-link text-dark" href="#"><img src="../img/suivant.png" alt="" width="15"></a>
+                <a class="page-link text-dark" href="#"><img src="../img/suivant.png" alt="" width="20"></a>
                 </li>
             </ul>
         </nav>
     </main>
 
-    <footer>
+    <!-- <footer>
         <div class=" bg-success border-0 fixed-bottom p-1">
             <table class="table text-light border-0 p-1">
 
@@ -137,7 +121,7 @@
 
             </table>
         </div>
-    </footer>
+    </footer> -->
 </body>
 
 </html>
