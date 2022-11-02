@@ -35,6 +35,9 @@ class ModelUser
 
         return 'MAE' . $randomString;
     }
+
+
+
     public function addUser($nom,$prenom,$passwords,$roles,$matricule,$email,$photo){
         $etat = 1;
        
@@ -120,6 +123,9 @@ class ModelUser
           
                 if ($donnee["etat"] == 1) {
                     if ($donnee["email"] == $email && $donnee["passwords"] == $passwords) {
+                        $_SESSION['nom']=$donnee['nom'];
+                        $_SESSION['prenom']=$donnee['prenom'];
+                        $_SESSION['matricule']=$donnee['matricule'];
                         if ($donnee["roles"] == "administrateur") {  
                            header("location:admin.php");
                            
@@ -141,75 +147,78 @@ class ModelUser
             echo $th->getMessage();
         }
     }
-    public function archiveUser($id){
+    public function archiveUser($matricule){
         try{
-            $sql=$this->db->prepare('UPDATE utilisateur SET etat=0 WHERE id=:id');
-            $sql->execute(['id'=>$id]);
+            $date_archivage= date("y-m-d");
+            $sql=$this->db->prepare('UPDATE utilisateur SET etat=0 ,date_archivage=:date_archivage WHERE matricule=:matricule');
+            $sql->execute(['date_archivage'=>$date_archivage,'matricule'=>$matricule]);
 
              
         } catch(\Throwable $th) {
 
         }
     }
-    public function desArchiveUser($id,$date_archivage){
+    public function desArchiveUser($matricule){
         try{
-            $sql=$this->db->prepare('UPDATE utilisateur SET etat=0 WHERE id=:id');
-            $sql->execute(['id'=>$id]);
+            $sql=$this->db->prepare('UPDATE utilisateur SET etat=1 WHERE matricule=:matricule');
+            $sql->execute(['matricule'=>$matricule]);
 
           
         } catch(\Throwable $th) {
 
         }
     }
-
- /*    public function inser($nom,$prenom,$passwords,$roles,$matricule,$email){
-
-        try{
-            $sql= $this->db->prepare('SELECT * FROM utilisateur');
-                    $sql->execute();
-        }catch (\Throwable $th) {
-            echo $th->getMessage();
-        }
-        }
-    }
- */
-  /*   public function getUserById($id){
-        try{
-                $sql=$this->db->prepare('SELECT * FROM user where id=:id');
-                $sql->execute(['id'=>$id]);
-        
-                return $sql->fetchAll();
-        }  catch(\Throwable $th) {
-            echo $th->getMessage();
-            $sql->closeCursor();
-        }
-    }
-
-    public function getUserByRole($roles){
+    public function edit($nom,$prenom,$email,$id){
         try {
-            $sql=$this->db->prepare('SELECT * FROM user WHERE roles =:roles ');
-            $sql->execute(array('roles'=>$roles));
-
-            return $sql->fetch();
-         
-            // return $sql;
+            
+            $sql=$this->db->prepare('UPDATE  utilisateur SET nom=:nom, prenom=:prenom, email=:email WHERE matricule=:id ');
+/*   var_dump($sql);die;         
+ */
+             $sql->execute(array(
+                'nom' =>$nom,
+                'prenom' => $prenom,
+                'email' => $email,
+                'id' =>$id,
+            )); 
+/*             var_dump($sql);die;
+ */            
         } catch (\Throwable $th) {
-            //throw $th;
-            $sql->closeCursor();
-        }
 
-    } */
+             echo ' 
+                    <div class="d-flex justify-content-center" role="alert">
+                        <span class="badge bg-danger border border-danger">'.$th->getMessage().'</span>
+                    </div>          
+                 ';
+                    }
+    }
 
-    /* public function getClasseByUserId($id){
-        try{
-            $sql=$this->db->prepare('SELECT * FROM classes where eleve=:id');
-            $sql->execute(['id'=>$id]);
-    
-            return $sql->fetchAll();
-        }  catch(\Throwable $th) {
-            echo $th->getMessage();
-            $sql->closeCursor();
+    public function getUser($matricule)
+    {
+        try {
+           
+            $sql =$this->db->query("SELECT nom, prenom, email FROM utilisateur WHERE matricule='$matricule'");
+            $sql = $sql->fetch();
+            return $sql;
+            
+        } catch (\Throwable $th) {
+
+            echo ' 
+                   <div class="d-flex justify-content-center" role="alert">
+                       <span class="badge bg-danger border border-danger">'.$th->getMessage().'</span>
+                   </div>          
+                ';
+                   }   
+    }
+    public function recherche(string $recherche)
+    {
+     $utilisateur = [];
+     $sql = "SELECT * FROM utilisateur where etat=& and (nom like '%$recherche%' or prenom like  '%$recherche%'  or email like '%$recherche%') or etat like '%$recherche%' ORDER BY id_emp DESC" ;
+        $sql = $this->db->query($sql);
+        if ($sql->rowCount() > 0) {
+            $utilisateur = $sql->fetchAll();
         }
-    } */
+        return $sql;
+    }
+
 }
 

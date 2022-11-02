@@ -1,7 +1,9 @@
 <?php
     require "../../model/model.php";
-
-
+    session_start();
+    if(isset($_POST['recherche'])){
+        
+    }   
 ?>
 
 <!DOCTYPE html>
@@ -21,11 +23,13 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-success p-4 d-flex">
             <div class="container-fluid d-flex">
                 <div>
-                    <img src="./img/user.png" alt="mama">
-                    <span>mammmm</span>
+                    <img src="../img/user.png" alt="">
+                    <span class="text-light" ><b><?=$_SESSION['nom'] ?></span></b>&nbsp;
+                    <span class="text-light"><b><?=$_SESSION['prenom'] ?></span></b>
                 </div>
                 <div class="m-2 ">
-                    <spa>MATRICULE</span>
+                <span class="text-light"><b><?=$_SESSION['matricule'] ?></span></b>
+
                 </div>
 
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
@@ -52,8 +56,8 @@
 
     <main>
         <div class="m-5">
-            <table class="table">
-                <thead class="border border-dark bg-dark text-light">
+            <table class="table ">
+                <thead class="border border-dark  ">
                     <tr class="border border-dark">
                         <th scope="col">NOM</th>
                         <th scope="col">PRENOM</th>
@@ -67,7 +71,7 @@
 
                   <?php
                         $db= new PDO('mysql:host=127.0.0.1;dbname=TPFormulaire;','root','');
-                        $sql=$db->prepare('SELECT * FROM utilisateur');
+                        $sql=$db->prepare('SELECT * FROM utilisateur where etat =1');
                     $sql->execute();
  
                     while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
@@ -83,8 +87,21 @@
                         <td>' . $roles . '</td>
                         <td>' . $matricule . '</td>
                         <td> <form action="mod_employer.php" method="post"> 
-                                    <input type="hidden" name="id" value=".$id.">
-                                    <button type="submit" class="btn btn-outline-danger">archiver</button>
+                                    <input type="hidden" name="matricule" value="'.$matricule.'">
+                                    <button type="submit" class="btn btn-outline-danger"><img src="../img/archiv.png" alt="" width="30" height="20">
+                                    </button>
+                                    </form>
+                                    </td>
+                                    <td> <form action="edit.php" method="get"> 
+                                    <input type="hidden" name="id" value="'.$matricule.'">
+                                    <button type="submit" class="btn btn-outline-success"><img src="../img/edit.png" alt="" width="30" height="20">
+                                    </button>
+                                    </form>
+                                    </td>
+                                    <td> <form action="mod_employer.php" method="post"> 
+                                    <input type="hidden" name="matricule" value=".$matricule.">
+                                    <button type="submit" class="btn btn-outline-success"><img src="../img/change.png" alt="" width="30" height="20">
+                                    </button>
                                     </form>
                                     </td>
 
@@ -96,35 +113,6 @@
                     </tbody>
                     </table>
 
-                   <!--  $ok = new ModelUser();
-
-                    $sql= $this->db->prepare('SELECT * FROM utilisateur');
-                    $sql->execute();
- 
-                    while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
-
-                        $prenom = $row['prenom'];
-                        $nom = $row['nom'];
-                        $email = $row['email'];
-                        $roles = $row['roles'];
-                        $matricule =  $row['matricule'];
-/*                         $id = $row['id'];
- */                        $action = $row['action'];
-
-                                    echo '<tr>
-                        <th>' . $prenom . '</th>
-                        <td>' . $nom . '</td>
-                        <td>' . $email . '</td>
-                        <td>' . $roles . '</td>
-                        <td>' . $matricule . '</td>
-                        <td>' . $action . '</td>
-                        </tr>';
-                    }
-
-                    ?>
-            
-                </tbody>
-            </table> -->
         </div>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">

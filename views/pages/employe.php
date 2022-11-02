@@ -1,5 +1,6 @@
 <?php
 require "../../model/model.php";
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,11 +18,15 @@ require "../../model/model.php";
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-success p-4 d-flex">
             <div class="container-fluid d-flex">
-                <div>
-                    <img src="../img/user.png" alt="mama">
-                    <span>mammmm</span>
+            <div>
+                    <img src="../img/user.png" alt="">
+                    <span class="text-light" ><b><?=$_SESSION['nom'] ?></span></b>&nbsp;
+                    <span class="text-light"><b><?=$_SESSION['prenom'] ?></span></b>
                 </div>
-                <div class="m-2 "><span>MATRICULE</span></div>
+                <div class="m-2 ">
+                <span class="text-light"><b><?=$_SESSION['matricule'] ?></span></b>
+
+                </div>
 
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">

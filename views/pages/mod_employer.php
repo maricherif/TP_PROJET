@@ -3,10 +3,9 @@
 require "../../model/model.php";
 
 $requeste = new ModelUser();
-
-if(isset($_POST['id'])) {
-    $id = (int) $_POST['id'];
-    $requeste->archiveUser($id);
+if(isset($_POST['matricule'])) {
+    $matricule = $_POST['matricule'];
+    $requeste->archiveUser($matricule);
 
     header("location:admin.php");
 exit;
@@ -14,11 +13,11 @@ exit;
 
 $requete = new ModelUser();
 
-if (isset($_POST['id_emd'],$_POST['date_archivage'])) {
-    $id = (int) $_POST['id_emd'];
-    $date_archivage = $_POST['date_archivage'];
+if (isset($_POST['id_emd'])) {
+    $matricule = $_POST['id_emd'];
+/*     var_dump($matricule);die;
+ */    $requete->desarchiveUser($matricule);
 
-    $requete->desarchiveUser($id,$date_archivage);
 }
 
 header("location:desar.php");

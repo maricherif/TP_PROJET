@@ -49,7 +49,6 @@
                     </a>
                 </div>
             </nav>
-
             <form id="form" class="row g-3 d-flex justify-content-center no-wrap m-2  bg-light needs-validation" novalidate action="inscription.php" method="post">
                 <div class="col-md-6 input-control">
                     <label for="input1" class="form-label">Nom<span style="color: red;">*</span></label>
