@@ -212,12 +212,11 @@ class ModelUser
     public function recherche(string $recherche)
     {
      $utilisateur = [];
-     $sql = "SELECT * FROM utilisateur where etat=& and (nom like '%$recherche%' or prenom like  '%$recherche%'  or email like '%$recherche%') or etat like '%$recherche%' ORDER BY id_emp DESC" ;
+     $sql = "SELECT * FROM utilisateur where etat=1 and (nom like '%$recherche%' or prenom like  '%$recherche%'  or email like '%$recherche%') or etat like '%$recherche%' ORDER BY id DESC" ;
         $sql = $this->db->query($sql);
         if ($sql->rowCount() > 0) {
             $utilisateur = $sql->fetchAll();
         }
-        return $sql;
     }
 
 }

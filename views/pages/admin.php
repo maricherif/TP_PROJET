@@ -2,9 +2,13 @@
     require "../../model/model.php";
     session_start();
     if(isset($_POST['recherche'])){
-        
+        $utilisateur;
+        $requeste = new ModelUser();
+        $requeste->recherche($recherche);
     }   
-?>
+
+/*     foreach($utilisateur);
+ */?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -45,9 +49,9 @@
                                 <button type="button" class="btn btn-outline-success"> <img src="../img/dearchiv.png" alt="archives" width="30">Liste des archives </button></a>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="recherche" aria-label="Search">
-                        <button class="btn btn-outline-light" type="submit">recherche</button>
+                    <form class="d-flex" action="admin.php" method="post">
+                        <input class="form-control me-2" type="search" placeholder="recherche"  aria-label="Search">
+                        <button class="btn btn-outline-light" value='.$id.'  name="id" type="submit">recherche</button>
                     </form>
                 </div>
             </div>
@@ -99,7 +103,7 @@
                                     </form>
                                     </td>
                                     <td> <form action="mod_employer.php" method="post"> 
-                                    <input type="hidden" name="matricule" value=".$matricule.">
+                                    <input type="hidden" name="matricule" value="'.$matricule.'">
                                     <button type="submit" class="btn btn-outline-success"><img src="../img/change.png" alt="" width="30" height="20">
                                     </button>
                                     </form>
