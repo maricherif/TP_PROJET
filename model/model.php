@@ -77,8 +77,8 @@ class ModelUser
         
          '; 
                 
-                          $this->setTimeout($this->redirectUrl("http:connexion.php/"), 5000);
-                        
+/*                           $this->setTimeout($this->redirectUrl("http:connexion.php/"), 5000);
+ */                        
                 
             }else {
                 
@@ -141,7 +141,28 @@ class ModelUser
             echo $th->getMessage();
         }
     }
-    public function inser($nom,$prenom,$passwords,$roles,$matricule,$email){
+    public function archiveUser($id){
+        try{
+            $sql=$this->db->prepare('UPDATE utilisateur SET etat=0 WHERE id=:id');
+            $sql->execute(['id'=>$id]);
+
+             
+        } catch(\Throwable $th) {
+
+        }
+    }
+    public function desArchiveUser($id,$date_archivage){
+        try{
+            $sql=$this->db->prepare('UPDATE utilisateur SET etat=0 WHERE id=:id');
+            $sql->execute(['id'=>$id]);
+
+          
+        } catch(\Throwable $th) {
+
+        }
+    }
+
+ /*    public function inser($nom,$prenom,$passwords,$roles,$matricule,$email){
 
         try{
             $sql= $this->db->prepare('SELECT * FROM utilisateur');
@@ -151,7 +172,7 @@ class ModelUser
         }
         }
     }
-
+ */
   /*   public function getUserById($id){
         try{
                 $sql=$this->db->prepare('SELECT * FROM user where id=:id');
@@ -190,5 +211,5 @@ class ModelUser
             $sql->closeCursor();
         }
     } */
-
+}
 

@@ -48,39 +48,38 @@ require "../../model/model.php";
                         <th scope="col">NOM</th>
                         <th scope="col">PRENOM</th>
                         <th scope="col">EMAIL</th>
-                        <th scope="col">RÔLE</th>
                         <th scope="col">MATRICULE</th>
+                        <th scope="col">date inscription</th>
                     </tr>
                 </thead>
                 <tbody class="border border-dark">
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      
+                <?php
+                        $db= new PDO('mysql:host=127.0.0.1;dbname=TPFormulaire;','root','');
+                        $sql=$db->prepare('SELECT * FROM utilisateur');
+                    $sql->execute();
+ 
+                    while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
+                        $nom = $row['nom'];
+                        $prenom = $row['prenom'];
+                        $email = $row['email'];
+                        $matricule =  $row['matricule'];
+                        $date_inscription = $row['date_inscription'];
 
+ 
+                                    echo '<tr>
+                        <td>' . $nom . '</td>
+                        <th>' . $prenom . '</th>
+                        <td>' . $email . '</td>
+                        <td>' . $matricule . '</td>
+                        <td>' . $date_inscription . '</td>
+                        
+                        </tr>';
+                    }
+                  
+                  ?>
 
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-    
-
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    
-
-                    </tr>
+                    </tbody>
+                    </table>
                 </tbody>
             </table>
         </div>

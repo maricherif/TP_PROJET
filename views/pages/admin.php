@@ -36,7 +36,7 @@
                                 <button type="button" class="btn btn-outline-success"> <img src="../img/deconect.png" alt="deconnecter" width="30">Deconnecter</button></a>
                         </li>
                         <li class="nav-item">
-                            <a href="">
+                            <a href="desar.php">
 
                                 <button type="button" class="btn btn-outline-success"> <img src="../img/dearchiv.png" alt="archives" width="30">Liste des archives </button></a>
                         </li>
@@ -53,7 +53,7 @@
     <main>
         <div class="m-5">
             <table class="table">
-                <thead class="border border-dark">
+                <thead class="border border-dark bg-dark text-light">
                     <tr class="border border-dark">
                         <th scope="col">NOM</th>
                         <th scope="col">PRENOM</th>
@@ -66,11 +66,41 @@
                 <tbody class="border border-dark">
 
                   <?php
-                    /* $ok = new ModelUser();
+                        $db= new PDO('mysql:host=127.0.0.1;dbname=TPFormulaire;','root','');
+                        $sql=$db->prepare('SELECT * FROM utilisateur');
+                    $sql->execute();
+ 
+                    while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
+                        $nom = $row['nom'];
+                        $prenom = $row['prenom'];
+                        $email = $row['email'];
+                        $roles = $row['roles'];
+                        $matricule =  $row['matricule'];
+                                    echo '<tr>
+                        <td>' . $nom . '</td>
+                        <th>' . $prenom . '</th>
+                        <td>' . $email . '</td>
+                        <td>' . $roles . '</td>
+                        <td>' . $matricule . '</td>
+                        <td> <form action="mod_employer.php" method="post"> 
+                                    <input type="hidden" name="id" value=".$id.">
+                                    <button type="submit" class="btn btn-outline-danger">archiver</button>
+                                    </form>
+                                    </td>
+
+                        </tr>';
+                    }
+                  
+                  ?>
+
+                    </tbody>
+                    </table>
+
+                   <!--  $ok = new ModelUser();
 
                     $sql= $this->db->prepare('SELECT * FROM utilisateur');
                     $sql->execute();
- */
+ 
                     while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
 
                         $prenom = $row['prenom'];
@@ -94,7 +124,7 @@
                     ?>
             
                 </tbody>
-            </table>
+            </table> -->
         </div>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
