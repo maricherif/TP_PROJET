@@ -82,13 +82,12 @@ session_start();
                     }
                   
                   ?>
-
                     </tbody>
                     </table>
                 </tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation example">
+      <!--   <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item disabled">
                 <a class="page-link text-dark" href="#" tabindex="-1" aria-disabled="true"><img src="../img/precedent.png" alt="" width="20"></a>
@@ -98,7 +97,7 @@ session_start();
                 <a class="page-link text-dark" href="#"><img src="../img/suivant.png" alt="" width="20"></a>
                 </li>
             </ul>
-        </nav>
+        </nav> -->
     </main>
 
     <!-- <footer>

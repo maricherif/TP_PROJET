@@ -127,11 +127,11 @@ class ModelUser
                         $_SESSION['prenom']=$donnee['prenom'];
                         $_SESSION['matricule']=$donnee['matricule'];
                         if ($donnee["roles"] == "administrateur") {  
-                           header("location:admin.php");
+                           header("location:views/pages/admin.php");
                            
                         } elseif($donnee["roles"] == "utilisateur"){
                             
-                            header("location:employe.php");
+                            header("location:views/pages/employe.php");
                         } 
                     }  else{
                         echo ' 
@@ -162,7 +162,6 @@ class ModelUser
         try{
             $sql=$this->db->prepare('UPDATE utilisateur SET etat=1 WHERE matricule=:matricule');
             $sql->execute(['matricule'=>$matricule]);
-
           
         } catch(\Throwable $th) {
 
@@ -196,7 +195,7 @@ class ModelUser
     {
         try {
            
-            $sql =$this->db->query("SELECT nom, prenom, email FROM utilisateur WHERE matricule='$matricule'");
+            $sql =$this->db->query("SELECT nom, matricule, prenom, email FROM utilisateur WHERE matricule='$matricule'");
             $sql = $sql->fetch();
             return $sql;
             
@@ -209,15 +208,24 @@ class ModelUser
                 ';
                    }   
     }
-    public function recherche(string $recherche)
-    {
-     $utilisateur = [];
-     $sql = "SELECT * FROM utilisateur where etat=1 and (nom like '%$recherche%' or prenom like  '%$recherche%'  or email like '%$recherche%') or etat like '%$recherche%' ORDER BY id DESC" ;
-        $sql = $this->db->query($sql);
-        if ($sql->rowCount() > 0) {
-            $utilisateur = $sql->fetchAll();
+    public function change($id){
+
+        $sql =$this->db->prepare("SELECT roles FROM utilisateur WHERE id = '$id'");
+        $sql->execute();
+    
+        if ($sql->rowCount()>0) {
+            $data = $sql->fetchAll()[0];
+            if ($data['roles'] === 'administrateur') {
+                $sql = $this->db-> prepare("UPDATE utilisateur SET role_etat = 1, roles = 'utilisateur' WHERE id = '$id'");
+                $sql->execute();
+            }else{
+                $sql = $this->db-> prepare("UPDATE utilisateur SET role_etat = 0, roles = 'administrateur' WHERE id = '$id'");
+                $sql->execute();
+            }
+            if ($sql) {
+                header("Location:admin.php"); 
+                exit;
+            }
         }
     }
-
 }
-

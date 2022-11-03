@@ -1,5 +1,5 @@
 <?php
-require "../../model/model.php";
+require "model/model.php";
 // var_dump($_POST);
 
 if (isset($_POST['email'], $_POST['passwords'])) {
@@ -36,7 +36,7 @@ if (isset($_POST['email'], $_POST['passwords'])) {
 
             <div class="d-flex justify-content-center mt-5 ">
 
-                <form action="connexion.php" method="post" class="row g-2 d-block bg-transparent col-md-8">
+                <form action="index.php" method="post" class="row g-2 d-block bg-transparent col-md-8">
                     <nav class="navbar navbar-dark bg-success">
                         <div class="container d-flex justify-content-center">
                             <a class="navbar-brand" href="#">
@@ -69,7 +69,7 @@ if (isset($_POST['email'], $_POST['passwords'])) {
 
                     <span class="text text-center mt-2">
                         <p>Vous n'avez pas de compte?
-                            <a href="inscription.php" style="text-decoration:none;">s'inscrire</a>
+                            <a href="./views/pages/inscription.php" style="text-decoration:none;">s'inscrire</a>
                         </p>
                     </span>
                 </form>
@@ -77,7 +77,7 @@ if (isset($_POST['email'], $_POST['passwords'])) {
         </div>
 
     </div>
-    <script src="connexion.js"></script>
+    <script src="./views/pages/connexion.js"></script>
 
 
 </body>

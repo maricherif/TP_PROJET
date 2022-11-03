@@ -15,12 +15,21 @@ $requete = new ModelUser();
 
 if (isset($_POST['id_emd'])) {
     $matricule = $_POST['id_emd'];
-/*     var_dump($matricule);die;
- */    $requete->desarchiveUser($matricule);
+    $requete->desarchiveUser($matricule);
 
 }
 
 header("location:desar.php");
 exit;
 
+
+if (isset($_GET['change'])) {
+    $id = $_GET['change'];
+
+    
+    if ($sql) {
+        header("Location:admin.php"); 
+        exit;
+    }
+}
 ?>

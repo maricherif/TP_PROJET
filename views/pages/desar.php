@@ -64,7 +64,7 @@
 
                   <?php
                   
-                  $db= new PDO('mysql:host=127.0.0.1;dbname=TPFormulaire;','root','');               
+                    $db= new PDO('mysql:host=127.0.0.1;dbname=TPFormulaire;','root','');               
                     $sql=$db->query('SELECT * FROM utilisateur WHERE  etat=0 ');
 
                      $sql->execute();
@@ -80,9 +80,12 @@
                         <th>' . $prenom . '</th>
                         <td>' . $matricule . '</td>
                         <td>' . $date_archivage . '</td>
-                        <td><form action="mod_employer.php" method="post">
+                        <td>
+                        <form action="mod_employer.php" method="post">
                         <input type="hidden" name="id_emd" value="'.$matricule.'">
-                        <button type="submit" name="'.$matricule.'" class="btn btn-outline-success"><img src="../img/desarchiv.png" alt="" width="30" height="20"</button>
+                        <button type="submit" onclick = "return confirm(\'voulez vous vraiment désarchiver?\')"name="'.$matricule.'" class="btn btn-outline-success">
+                            <img src="../img/desarchiv.png" alt="" width="30" height="20"
+                        </button>
                         </td>
                         </tr>';
 

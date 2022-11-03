@@ -1,8 +1,6 @@
 <?php
     require "../../model/model.php";
 
-
-
     if (isset($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['passwords'],$_POST['photo'])) {
 
                                 
@@ -102,7 +100,7 @@
 
                 <span class="text text-center mt-2">
                     <p>Vous avez un compte?
-                        <a href="connexion.php" style="text-decoration:none;"> connectez-vous</a>
+                        <a href="../../index.php" style="text-decoration:none;"> connectez-vous</a>
                     </p>
                 </span>
             </form>
