@@ -1,6 +1,18 @@
 <?php
 require "../../model/model.php";
 session_start();
+$db = new PDO('mysql:host=127.0.0.1;dbname=TPFormulaire;', 'root', '');
+if (isset($_GET['recherche'])) {
+
+    $recherche = htmlspecialchars($_GET['recherche']);
+
+    $utilisateur = "";
+    $req = $db->prepare('SELECT `id`, `matricule`, `nom`, `prenom`, `email`, `roles`, `passwords`, `photo`, `date_inscription`, `date_modification`, `date_archivage`, `role_etat`, `etat` FROM `utilisateur` WHERE `etat`=1 and `matricule` = "' . $recherche . '"');
+    $req->execute(['matricule' => $recherche]);
+    $utilisateur = $req->fetch();
+ 
+    $existe = true;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,14 +43,13 @@ session_start();
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a href="connexion.php">
-
+                            <a href="deconect.php">
                                 <button type="button" class="btn btn-outline-success"> <img src="../img/deconect.png" alt="deconnecter" width="30">Deconnecter</button></a>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="recherche" aria-label="Search">
-                        <button class="btn btn-outline-light" type="submit">recherche</button>
+                    <form class="d-flex" action="employe.php" method="get">
+                        <input class="form-control me-2" name="recherche" type="search" placeholder="recherche par matricule" aria-label="Search">
+                        <button class="btn btn-outline-light"  type="submit">rechercher</button>
                     </form>
                 </div>
             </div>
@@ -59,32 +70,74 @@ session_start();
                 </thead>
                 <tbody class="border border-dark">
                 <?php
-                        $db= new PDO('mysql:host=127.0.0.1;dbname=TPFormulaire;','root','');
-                        $sql=$db->prepare('SELECT * FROM utilisateur');
+                   
+                   $sql = $db->prepare('SELECT * FROM utilisateur where etat =1');
                     $sql->execute();
- 
-                    while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
-                        $nom = $row['nom'];
-                        $prenom = $row['prenom'];
-                        $email = $row['email'];
-                        $matricule =  $row['matricule'];
-                        $date_inscription = $row['date_inscription'];
 
- 
-                                    echo '<tr>
-                        <td>' . $nom . '</td>
-                        <th>' . $prenom . '</th>
-                        <td>' . $email . '</td>
-                        <td>' . $matricule . '</td>
-                        <td>' . $date_inscription . '</td>
+                    if (isset($existe ,$utilisateur) && $existe) {
+
+                       if (!empty($utilisateur)) {
+                        $etat = $utilisateur['etat'];
+                        $matricule = $utilisateur['matricule'];
+                        $nom = $utilisateur['nom'];
+                        $prenom = $utilisateur['prenom'];
+                        $email = $utilisateur['email'];
+                        $date_inscription = $utilisateur['date_inscription'];
+                        $id = $utilisateur['id'];
+
+                            echo '<tr>
+                            <td>' . $nom . '</td>
+                            <th>' . $prenom . '</th>
+                            <td>' . $email . '</td>
+                            <td>' . $matricule . '</td>
+                            <td>' . $date_inscription . '</td>
+
+    
+                            </tr>';
+                       } else {
+                        echo ' 
+                        <span id="ok" class="w-75 h-25 mb-2 h1 d-flex justify-content-center border-none t  text-danger">
+                                Le matricule recherché n\'est attribuer à aucun utilisateur  !
+                        </span>
+
+                    ';
                         
-                        </tr>';
+                       }
+                       
+                    } else {
+                        while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
+                            $nom = $row['nom'];
+                            $prenom = $row['prenom'];
+                            $email = $row['email'];
+                            $matricule =  $row['matricule'];
+                            $date_inscription = $row['date_inscription'];
+                            echo '<tr>
+                            <td>' . $nom . '</td>
+                            <th>' . $prenom . '</th>
+                            <td>' . $email . '</td>
+                            <td>' . $matricule . '</td>
+                            <td>' . $date_inscription . '</td>
+    
+                            </tr>';
+                        }
                     }
+
                   
                   ?>
+                  
                     </tbody>
+                    
                     </table>
                 </tbody>
+                <ul class="nav-item">
+                <?php    
+                    if (isset($existe) && $existe) {
+                       echo '<a href="admin.php">
+                       <button type="button" class="btn btn-outline-success mb-auto">Retour </button>
+                   </a>';
+                    }
+                ?>
+            </ul>
             </table>
         </div>
       <!--   <nav aria-label="Page navigation example">
@@ -99,32 +152,6 @@ session_start();
             </ul>
         </nav> -->
     </main>
-
-    <!-- <footer>
-        <div class=" bg-success border-0 fixed-bottom p-1">
-            <table class="table text-light border-0 p-1">
-
-                <tr>
-                    <th class="border-0">CONTACT</th>
-                    <th class="border-0">RESEAU SOCIAUX</th>
-
-                </tr>
-
-
-                <tr>
-                    <td class="border-0"> <img src="../img/tel.png" alt="" width="30" height="24"> TEL: 78 422 73 95
-                    </td>
-                    <td class="border-0"> <a class="text-light" href=""><img src="../img/facebook.png" alt="" width="30" height="24"> FACEBOOK</td></a>
-
-                </tr>
-                <tr>
-                    <td class="border-0"> <a class="text-light" href=""> <img src="../img/email.png" alt="" width="30" height="24"> EMAIL: mariecherifsow@gmail.com</td></a>
-                    <td class="border-0"> <a class="text-light" href=""><img src="../img/linkedin.png" alt="" width="30" height="24"> LINKEDIN</td></a>
-                </tr>
-
-            </table>
-        </div>
-    </footer> -->
 </body>
 
 </html>

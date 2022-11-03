@@ -1,19 +1,14 @@
 <?php
 require "model/model.php";
-// var_dump($_POST);
 
 if (isset($_POST['email'], $_POST['passwords'])) {
     $requeste = new ModelUser();
     
     $email = $_POST['email'];
     $passwords = md5($_POST['passwords']);
-//    var_dump($passwords);die;
 
     $requeste->connecter($email, $passwords);
 }
-/* if (isset($_SESSION['roles'])) {
-    if($_SESSION['roles'] =='admin'){
-        header('location:admin.php'); */
     
 ?>
 
@@ -62,7 +57,6 @@ if (isset($_POST['email'], $_POST['passwords'])) {
                     <div class="row d-flex justify-content-center mt-2">
                         <button type="submit" class="btn btn-success col-3" id="submit">
                             Connexion
-
                         </button>
 
                     </div>

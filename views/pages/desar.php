@@ -47,20 +47,17 @@
 <div class="tab-pane" id="test">
         <div class="col-md-12">
          
-        <table class="table m-2 " >
-                    <thead class="thead-dark bg-dark text-light">
-                    <tr>
+        <table class="table m-2 border-dark" >
+                    <thead class="thead-dark text-dark border-dark">
+                    <tr class="border-dark">
                         <th scope="col">nom</th>
                         <th scope="col">prenom</th>
                         <th scope="col">matricule</th>
                         <th scope="col">date_archivage</th>
-                        <th scope="col">Action</th>
-
-
-                        
+                        <th scope="col">action</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="border-dark">
 
                   <?php
                   

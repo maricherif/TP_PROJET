@@ -39,7 +39,7 @@ if (isset($_GET['recherche'])) {
                     <span class="text-light"><b><?= $_SESSION['prenom'] ?></span></b>
                 </div>
                 <div class="m-2 ">
-                    <span class="text-light"><b><?= $_SESSION['matricule'] ?></span></b>
+                    <span class="text-dark mb-3 "><b><?= $_SESSION['matricule'] ?></span></b>
 
                 </div>
 
@@ -47,13 +47,13 @@ if (isset($_GET['recherche'])) {
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a href="deconect.php">
-                                <button type="button" class="btn btn-outline-success"> <img src="../img/deconect.png" alt="deconnecter" width="30">Deconnecter</button>
+                                <button type="button" class="btn btn-outline-success"><img src="../img/deconect.png" alt="deconnecter" width="30">Deconnecter</button>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="desar.php">
 
-                                <button type="button" class="btn btn-outline-success"> <img src="../img/dearchiv.png" alt="archives" width="30">Liste des archives </button></a>
+                                <button type="button" class="btn btn-outline-success"> <img src="../img/dearchiv.png" alt="archives" width="30">Liste des archives</button></a>
                         </li>
                     </ul>
                     <form class="d-flex" action="admin.php" method="get">
@@ -87,6 +87,7 @@ if (isset($_GET['recherche'])) {
 
                     if (isset($existe ,$utilisateur) && $existe) {
 
+                       if (!empty($utilisateur)) {
                         $etat = $utilisateur['etat'];
                         $matricule = $utilisateur['matricule'];
                         $nom = $utilisateur['nom'];
@@ -98,7 +99,7 @@ if (isset($_GET['recherche'])) {
                             <td>' . $nom . '</td>
                             <th>' . $prenom . '</th>
                             <td>' . $email . '</td>
-                            <td>' . $role . '</td>
+                            <td>' . $roles . '</td>
                             <td>' . $matricule . '</td>
                             <td> <form action="mod_employer.php" method="post"> 
                                         <input  type="hidden" name="matricule" value="' . $matricule . '">
@@ -120,6 +121,16 @@ if (isset($_GET['recherche'])) {
                                         </td>
     
                             </tr>';
+                       } else {
+                        echo ' 
+                        <span id="ok" class="w-75 h-25 mb-2 h1 d-flex justify-content-center border-none t  text-danger">
+                                Le matricule recherché n\'est attribuer à aucun utilisateur  !
+                        </span>
+
+                    ';
+                        
+                       }
+                       
                     } else {
                         while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
                             $nom = $row['nom'];
@@ -127,6 +138,7 @@ if (isset($_GET['recherche'])) {
                             $email = $row['email'];
                             $roles = $row['roles'];
                             $matricule =  $row['matricule'];
+                            $id =  $row['id'];
                             echo '<tr>
                             <td>' . $nom . '</td>
                             <th>' . $prenom . '</th>
@@ -146,7 +158,7 @@ if (isset($_GET['recherche'])) {
                                         </form>
                                         </td>
                                         <td> <form action="change.php" method="get"> 
-                                        <input type="hidden" name="id" value="' . $row['id'] . '">
+                                        <input type="hidden" name="id" value="' . $id . '">
                                         <button type="submit" class="btn btn-outline-success"><img src="../img/change.png" alt="" width="30" height="20">
                                         </button>
                                         </form>
@@ -162,8 +174,17 @@ if (isset($_GET['recherche'])) {
                     ?>
 
                 </tbody>
+                
             </table>
-
+            <ul class="nav-item">
+                <?php    
+                    if (isset($existe) && $existe) {
+                       echo '<a href="admin.php">
+                       <button type="button" class="btn btn-outline-success mb-auto">Retour </button>
+                   </a>';
+                    }
+                ?>
+            </ul>
         </div>
         <!--  <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">

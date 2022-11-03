@@ -79,8 +79,11 @@ class ModelUser
                  </script> 
         
          '; 
+         header("location:../../index.php");
+         exit;
+
                 
-/*                           $this->setTimeout($this->redirectUrl("http:connexion.php/"), 5000);
+/*                           $this->setTimeout($this->redirectUrl("http:index.php/"), 5000);
  */                        
                 
             }else {
@@ -119,8 +122,6 @@ class ModelUser
             $sql->execute(array('email' => $email));
             
             $donnee=$sql->fetch(PDO::FETCH_ASSOC);
-           
-          
                 if ($donnee["etat"] == 1) {
                     if ($donnee["email"] == $email && $donnee["passwords"] == $passwords) {
                         $_SESSION['nom']=$donnee['nom'];
@@ -133,15 +134,19 @@ class ModelUser
                             
                             header("location:views/pages/employe.php");
                         } 
-                    }  else{
-                        echo ' 
-                    <span id="ok" class="w-75 h-25 m-5 d-flex justify-content-center border-none   text-danger">
-                            Vous n\'avez pas de compte!
-                    </span>
+                    }  
+                }  else{
+                    echo ' 
+                <span id="erreur" class="w-75 h-25 m-5 d-flex justify-content-center border-none   text-danger">
+                        Vous n\'avez pas de compte!
+                </span>
 
-                    ';
-                    }
-                }  
+                ';
+                echo ' 
+                                <script>
+                                     setTimeout(()=>{document.getElementById("erreur").remove()},2000);
+                                     </script> ';
+                }
         
         }catch (\Throwable $th) {
             echo $th->getMessage();
@@ -149,6 +154,7 @@ class ModelUser
     }
     public function archiveUser($matricule){
         try{
+            
             $date_archivage= date("y-m-d");
             $sql=$this->db->prepare('UPDATE utilisateur SET etat=0 ,date_archivage=:date_archivage WHERE matricule=:matricule');
             $sql->execute(['date_archivage'=>$date_archivage,'matricule'=>$matricule]);
@@ -159,10 +165,10 @@ class ModelUser
         }
     }
     public function desArchiveUser($matricule){
+    
         try{
             $sql=$this->db->prepare('UPDATE utilisateur SET etat=1 WHERE matricule=:matricule');
             $sql->execute(['matricule'=>$matricule]);
-          
         } catch(\Throwable $th) {
 
         }
