@@ -1,6 +1,18 @@
 <?php
     require "../../model/model.php";
     session_start();
+    $db = new PDO('mysql:host=127.0.0.1;dbname=TPFormulaire;', 'root', '');
+if (isset($_GET['recherche'])) {
+
+    $recherche = htmlspecialchars($_GET['recherche']);
+
+    $utilisateur = "";
+    $req = $db->prepare('SELECT `id`, `matricule`, `nom`, `prenom`, `email`, `roles`, `passwords`, `photo`, `date_inscription`, `date_modification`, `date_archivage`, `role_etat`, `etat` FROM `utilisateur` WHERE `etat`= 0 and `matricule` = "' . $recherche . '"');
+    $req->execute(['matricule' => $recherche]);
+    $utilisateur = $req->fetch();
+ 
+    $existe = true;
+    }
     
 ?>
 <!DOCTYPE html>
@@ -30,54 +42,97 @@
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a href="connexion.php">
+                            <a href="deconect.php">
 
                                 <button type="button" class="btn btn-outline-success"> <img src="../img/deconect.png" alt="deconnecter" width="30">Deconnecter</button></a>
                         </li>
                         
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="recherche" aria-label="Search">
-                        <button class="btn btn-outline-light" type="submit">recherche</button>
+                    <form class="d-flex" action="desar.php" method="get">
+                        <input class="form-control me-2" type="search" name="recherche" placeholder="recherche par matricule" aria-label="Search">
+                        <button class="btn btn-outline-light " type="submit">rechercher</button>
+                     
                     </form>
+                    <ul class="nav-item ">
+                <?php    
+                    if (isset($existe) && $existe) {
+                       echo '<a href="desar.php">
+                       <button type="button" class="btn btn-outline-danger mt-3 border-0">Quitter </button>
+                   </a>';
+                    }
+                ?>
+            </ul>
                 </div>
             </div>
         </nav>
     </header>
 <div class="tab-pane" id="test">
         <div class="col-md-12">
-         
-        <table class="table m-2 border-dark" >
-                    <thead class="thead-dark text-dark border-dark">
-                    <tr class="border-dark">
-                        <th scope="col">nom</th>
-                        <th scope="col">prenom</th>
-                        <th scope="col">matricule</th>
+        <table class="table ">
+                <thead class="border border-dark">
+                    <tr class="border border-dark">
+                        <th scope="col">NOM</th>
+                        <th scope="col">PRENOM</th>
+                        <th scope="col">MATRICULE</th>
                         <th scope="col">date_archivage</th>
-                        <th scope="col">action</th>
+                        <th scope="col">ACTION</th>
                     </tr>
-                    </thead>
-                    <tbody class="border-dark">
+                </thead>
+                <tbody class="border border-dark">
 
-                  <?php
-                  
-                    $db= new PDO('mysql:host=127.0.0.1;dbname=TPFormulaire;','root','');               
-                    $sql=$db->query('SELECT * FROM utilisateur WHERE  etat=0 ');
+                    <?php
+                   
+                    $sql = $db->prepare('SELECT * FROM utilisateur where etat =0');
+                    $sql->execute();
 
-                     $sql->execute();
- 
-                    while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
-                        $nom = $row['nom'];
-                        $prenom = $row['prenom'];
-                        $matricule =  $row['matricule'];
-                        $date_archivage = $row['date_archivage'];
- 
-                                    echo '<tr>
-                        <td>' . $nom . '</td>
-                        <th>' . $prenom . '</th>
-                        <td>' . $matricule . '</td>
-                        <td>' . $date_archivage . '</td>
-                        <td>
+                    if (isset($existe ,$utilisateur) && $existe) {
+
+                       if (!empty($utilisateur)) {
+                        $etat = $utilisateur['etat'];
+                        $matricule = $utilisateur['matricule'];
+                        $nom = $utilisateur['nom'];
+                        $prenom = $utilisateur['prenom'];
+                        $id = $utilisateur['id'];
+                        $date_archivage = $utilisateur['date_archivage'];
+
+                            echo '<tr>
+                            <td>' . $nom . '</td>
+                            <th>' . $prenom . '</th>
+                            <td>' . $matricule . '</td>
+                            <td>' . $date_archivage . '</td>
+                            <td>
+                            <form action="mod_employer.php" method="post">
+                            <input type="hidden" name="id_emd" value="'.$matricule.'">
+                            <button type="submit" onclick = "return confirm(\'voulez vous vraiment désarchiver?\')"name="'.$matricule.'" class="btn btn-outline-success">
+                                <img src="../img/desarchiv.png" alt="" width="30" height="20"
+                            </button>
+                            </td>
+                            </tr>';
+
+                       } else {
+                        echo ' 
+                        <span id="ok" class="w-75 h-25 mb-2 h1 d-flex justify-content-center border-none t  text-danger">
+                                Le matricule recherché n\'est attribuer à aucun utilisateur  !
+                        </span>
+
+                    ';
+                        
+                       }
+                       
+                    } else {
+                        while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
+                            $nom = $row['nom'];
+                            $prenom = $row['prenom'];
+                            $matricule =  $row['matricule'];
+                            $date_archivage = $row['date_archivage'];
+                            $id =  $row['id'];
+                            echo '<tr>
+                            <td>' . $nom . '</td>
+                            <th>' . $prenom . '</th>
+                            <td>' . $matricule . '</td>
+                            <td>' . $date_archivage . '</td>
+
+                            <td>
                         <form action="mod_employer.php" method="post">
                         <input type="hidden" name="id_emd" value="'.$matricule.'">
                         <button type="submit" onclick = "return confirm(\'voulez vous vraiment désarchiver?\')"name="'.$matricule.'" class="btn btn-outline-success">
@@ -85,13 +140,15 @@
                         </button>
                         </td>
                         </tr>';
+                        }
+                    }
 
-                            }
-                  
-                  ?>
 
-                    </tbody>
-                    </table>
+                    ?>
+
+                </tbody>
+                
+            </table>
                     <ul class="nav-item">
                             <a href="admin.php">
                                 <button type="button" class="btn btn-outline-success mb-auto">Retour </button></a>

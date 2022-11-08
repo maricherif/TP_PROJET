@@ -1,7 +1,7 @@
 <?php
     require "../../model/model.php";
 
-    if (isset($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['passwords'],$_POST['photo'])) {
+    if (isset($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['passwords'])) {
 
                                 
 
@@ -10,12 +10,13 @@
             $roles= $_POST['roles'];
             $passwords= md5($_POST['passwords']);
             $email=($_POST['email']);
-            $photo=($_POST['photo']);
+            $photo=file_get_contents($_FILES['photo']['tmp_name'])?? null;
 
             $requeste = new ModelUser();
 
             $matricule = $requeste->generateMatricule();
-            $requeste->addUser($nom,$prenom,$passwords,$roles,$matricule,$email,$photo);
+            $requeste->addUser($nom,$prenom,$passwords,$roles,$matricule,$email, $photo);
+            
 }
 ?>
 
@@ -27,9 +28,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <title>Inscription</title>
 </head>
@@ -47,7 +46,7 @@
                     </a>
                 </div>
             </nav>
-            <form id="form" class="row g-3 d-flex justify-content-center no-wrap m-2  bg-light needs-validation" novalidate action="inscription.php" method="post">
+            <form id="form" enctype="multipart/form-data" class="row g-3 d-flex justify-content-center no-wrap m-2  bg-light needs-validation" novalidate action="inscription.php" method="post">
                 <div class="col-md-6 input-control">
                     <label for="input1" class="form-label">Nom<span style="color: red;">*</span></label>
                     <input type='text' name='nom' placeholder="nom" class="form-control border-dark p-3" id="nom" required>
@@ -63,11 +62,11 @@
                     <label for="input3" class="form-label">Email<span style="color: red;">*</span></label>
                     <input type="text" class="form-control border-dark p-3" name="email" placeholder="email" id="email" required>
                     <div class="invalid-feedback d-none" id="erreur_email">Email est obligatoire</div>
-                    <div class="invalid-feedback d-none" id="erreur_email2">entrez un format valide</div>
+                    <div class="invalid-feedback d-none" id="erreur_email2">Entrez un format valide</div>
                 </div>
                 <div class="col-md-6 input-control">
                     <label for="input4" class="form-label">Ajouter une image</label>
-                    <input type="file" name="photo" class="form-control border-dark p-3">
+                    <input type="file" name="photo" accept=".jpg,.png,.jpeg" class="form-control border-dark p-3">
 
                 </div>
                 <div class="col-md-6 input-control">

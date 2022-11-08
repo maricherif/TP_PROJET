@@ -43,8 +43,8 @@ class ModelUser
        
         try {
 
-            $sql=$this->db->prepare('INSERT INTO `utilisateur` ( `nom`, `prenom`, `passwords`,`roles`,`matricule`,`email`,`etat`,`photo`)
-                                        VALUES (:nom,:prenom,:passwords,:roles,:matricule,:email,:etat,:photo)');
+            $sql=$this->db->prepare('INSERT INTO `utilisateur` ( `nom`, `prenom`, `passwords`,`roles`,`matricule`,`email`,`etat`, `photo`)
+                                        VALUES (:nom,:prenom,:passwords,:roles,:matricule,:email,:etat, :photo)');
             
             $checkMail =$this->db->prepare('SELECT email FROM utilisateur WHERE email=:email');
             $checkMail->bindParam(":email",$email);
@@ -52,37 +52,32 @@ class ModelUser
             $checkMail->execute(array('email' => $email));
 
             $row = $checkMail->fetch(PDO::FETCH_ASSOC);
-/*              var_dump($checkMail);die;
- */          if (!$row) {
-                
-                $sql->execute(array(
-                    
-                    'nom' =>$nom,
-                    'prenom' => $prenom,
-                    'passwords' => $passwords,
-                    'roles' => $roles,
-                    'matricule' => $matricule,
-                    'email' => $email,
-                    'etat' => $etat,
-                    'photo' => $photo,
-                ));
+              
+          if (!$row) {
+                $sql->bindParam(":nom", $nom);
+                $sql->bindParam(":prenom", $prenom);
+                $sql->bindParam(":passwords", $passwords);
+                $sql->bindParam(":roles", $roles);
+                $sql->bindParam(":matricule", $matricule);
+                $sql->bindParam(":email", $email);
+                $sql->bindParam(":etat", $etat);
+                $sql->bindParam(":photo", $photo);
+                $sql->execute();
 
-                    echo ' 
-                    <span id="ok" class="w-75 h-25 m-5 d-flex justify-content-center border-none   text-success">
-                            Inscription reussie!
-                    </span>
-
-                    ';
-    echo ' 
-                <script>
-                     setTimeout(()=>{document.getElementById("ok").remove()},2000);
-                 </script> 
+                echo ' 
+                <span id="ok" class="w-75 h-25 m-5 d-flex justify-content-center border-none   text-success">
+                        Inscription reussie!
+                </span>
         
-         '; 
-         header("location:../../index.php");
-         exit;
-
-                
+                ';
+                 echo ' 
+                <script>
+                    setTimeout(()=>{document.getElementById("ok").remove()},2000);
+                </script> 
+        
+                '; 
+                header("location:../../index.php");
+                exit;
 /*                           $this->setTimeout($this->redirectUrl("http:index.php/"), 5000);
  */                        
                 
@@ -96,9 +91,6 @@ class ModelUser
                                      setTimeout(()=>{document.getElementById("erreur").remove()},2000);
                                      </script> ';
             }
-            
-
-                
         } catch (\Throwable $th) {
 
             echo ' 
@@ -110,11 +102,8 @@ class ModelUser
         }
     }
 
-    
-
     public function connecter($email, $passwords)
     {
-        session_start();
         try {
            
             $sql =$this->db->prepare('SELECT * FROM utilisateur WHERE email=:email');
@@ -127,26 +116,27 @@ class ModelUser
                         $_SESSION['nom']=$donnee['nom'];
                         $_SESSION['prenom']=$donnee['prenom'];
                         $_SESSION['matricule']=$donnee['matricule'];
-                        if ($donnee["roles"] == "administrateur") {  
+                        $_SESSION['photo']=$donnee['photo'];
+                        if ($donnee["roles"] === "administrateur") {  
                            header("location:views/pages/admin.php");
                            
-                        } elseif($donnee["roles"] == "utilisateur"){
+                        } elseif($donnee["roles"] === "utilisateur"){
                             
                             header("location:views/pages/employe.php");
                         } 
-                    }  
-                }  else{
-                    echo ' 
-                <span id="erreur" class="w-75 h-25 m-5 d-flex justify-content-center border-none   text-danger">
-                        Vous n\'avez pas de compte!
-                </span>
-
-                ';
+                }  
+            }  else{
                 echo ' 
-                                <script>
-                                     setTimeout(()=>{document.getElementById("erreur").remove()},2000);
-                                     </script> ';
-                }
+            <p id="erreur" class="w-75 h-25 mb-5 m-5 fixed-bottom text-center border-none  h2 text-danger">
+                    Vous n\'avez pas de compte!
+            </p>
+
+            ';
+            echo ' 
+                            <script>
+                                 setTimeout(()=>{document.getElementById("erreur").remove()},2000);
+                                 </script> ';
+            }
         
         }catch (\Throwable $th) {
             echo $th->getMessage();
@@ -158,7 +148,6 @@ class ModelUser
             $date_archivage= date("y-m-d");
             $sql=$this->db->prepare('UPDATE utilisateur SET etat=0 ,date_archivage=:date_archivage WHERE matricule=:matricule');
             $sql->execute(['date_archivage'=>$date_archivage,'matricule'=>$matricule]);
-
              
         } catch(\Throwable $th) {
 
@@ -173,20 +162,51 @@ class ModelUser
 
         }
     }
-    public function edit($nom,$prenom,$email,$id){
+    public function edit($nom,$prenom,$email,$id, $emailPrecedent){
         try {
             
             $sql=$this->db->prepare('UPDATE  utilisateur SET nom=:nom, prenom=:prenom, email=:email WHERE matricule=:id ');
-/*   var_dump($sql);die;         
- */
-             $sql->execute(array(
-                'nom' =>$nom,
-                'prenom' => $prenom,
-                'email' => $email,
-                'id' =>$id,
-            )); 
-/*             var_dump($sql);die;
- */            
+            $checkMail =$this->db->prepare('SELECT email FROM utilisateur WHERE email=:email AND email!=:emailPrecedent');
+            $checkMail->bindParam(":email",$email);
+            $checkMail->bindParam(":emailPrecedent",$emailPrecedent);
+ 
+            $checkMail->execute();
+            $row = $checkMail->fetch(PDO::FETCH_ASSOC);
+              
+          if (!$row) {
+                $sql->bindParam(":nom", $nom);
+                $sql->bindParam(":prenom", $prenom);
+                $sql->bindParam(":email", $email);
+                $sql->bindParam(":id", $id);
+/*                 $sql->bindParam(":etat", $etat);
+ *//*                 $sql->bindParam(":photo", $photo);
+ */                $sql->execute();
+ 
+            echo ' 
+            <span id="okk" class="w-75 h-25 m-5 d-flex justify-content-center border-none   text-success">
+                    Modification reussie!
+            </span>
+
+            ';
+            echo ' 
+                <script>
+                     setTimeout(()=>{document.getElementById("okk").remove()},2000);
+                 </script> 
+        
+         ';
+         header("location:admin.php");
+            exit;
+          }else {
+                
+            echo ' 
+                   <span id="erreurr" class="d-flex justify-content-center mt-2  text-danger"> Email existe déjà!</span>
+                   ';
+           echo ' 
+                   <script>
+                        setTimeout(()=>{document.getElementById("erreurr").remove()},2000);
+                        </script> ';
+}
+             
         } catch (\Throwable $th) {
 
              echo ' 
@@ -234,4 +254,5 @@ class ModelUser
             }
         }
     }
+   
 }

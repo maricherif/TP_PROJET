@@ -51,6 +51,15 @@ if (isset($_GET['recherche'])) {
                         <input class="form-control me-2" name="recherche" type="search" placeholder="recherche par matricule" aria-label="Search">
                         <button class="btn btn-outline-light"  type="submit">rechercher</button>
                     </form>
+                    <ul class="nav-item ">
+                <?php    
+                    if (isset($existe) && $existe) {
+                       echo '<a href="employe.php">
+                       <button type="button" class="btn btn-outline-danger mt-3 border-0">Quitter </button>
+                   </a>';
+                    }
+                ?>
+            </ul>
                 </div>
             </div>
         </nav>
@@ -126,19 +135,8 @@ if (isset($_GET['recherche'])) {
                   ?>
                   
                     </tbody>
-                    
                     </table>
-                </tbody>
-                <ul class="nav-item">
-                <?php    
-                    if (isset($existe) && $existe) {
-                       echo '<a href="admin.php">
-                       <button type="button" class="btn btn-outline-success mb-auto">Retour </button>
-                   </a>';
-                    }
-                ?>
-            </ul>
-            </table>
+
         </div>
       <!--   <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">

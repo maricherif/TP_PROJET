@@ -1,6 +1,6 @@
 <?php
 require "model/model.php";
-
+session_start();
 if (isset($_POST['email'], $_POST['passwords'])) {
     $requeste = new ModelUser();
     
@@ -9,6 +9,20 @@ if (isset($_POST['email'], $_POST['passwords'])) {
 
     $requeste->connecter($email, $passwords);
 }
+// $_SESSION['matricule'] =$utilisateur['matricule'];
+// $_SESSION['nom'] =$utilisateur['nom'];
+// $_SESSION['prenom'] =$utilisateur['prenom'];
+// $_SESSION['photo'] =$utilisateur['photo'];
+//  if($utilisateur['roles']=== 'administrateur'){
+//     $_SESSION['roles'] =$utilisateur['roles'];
+//     header('location: ./views/pages/admin.php');
+// }
+// if($utilisateur['roles']=== 'utilisateur');{
+//     $_SESSION['roles'] =$utilisateur['roles'];
+//     header('location: ./views/pages/employe.php');
+    
+// }  
+
     
 ?>
 
