@@ -255,4 +255,57 @@ class ModelUser
         }
     }
    
+    public function profil($nom,$prenom,$email,$id, $emailPrecedent,$photo){
+        try {
+            
+            $sql=$this->db->prepare('UPDATE  utilisateur SET nom=:nom, prenom=:prenom, email=:email, photo=:photo WHERE matricule=:id ');
+            $checkMail =$this->db->prepare('SELECT email FROM utilisateur WHERE email=:email AND email!=:emailPrecedent');
+            $checkMail->bindParam(":email",$email);
+            $checkMail->bindParam(":emailPrecedent",$emailPrecedent);
+ 
+            $checkMail->execute();
+            $row = $checkMail->fetch(PDO::FETCH_ASSOC);
+              
+          if (!$row) {
+                $sql->bindParam(":nom", $nom);
+                $sql->bindParam(":prenom", $prenom);
+                $sql->bindParam(":email", $email);
+                $sql->bindParam(":photo", $photo);
+                $sql->bindParam(":id", $id);
+               $sql->execute();
+ 
+            echo ' 
+            <span id="okk" class="w-75 h-25 m-5 d-flex justify-content-center border-none   text-success">
+                    Modification reussie!
+            </span>
+
+            ';
+            echo ' 
+                <script>
+                     setTimeout(()=>{document.getElementById("okk").remove()},2000);
+                 </script> 
+        
+         ';
+         header("location:admin.php");
+            exit;
+          }else {
+                
+            echo ' 
+                   <span id="erreurr" class="d-flex justify-content-center mt-2  text-danger"> Email existe déjà!</span>
+                   ';
+           echo ' 
+                   <script>
+                        setTimeout(()=>{document.getElementById("erreurr").remove()},2000);
+                        </script> ';
+}
+             
+        } catch (\Throwable $th) {
+
+             echo ' 
+                    <div class="d-flex justify-content-center" role="alert">
+                        <span class="badge bg-danger border border-danger">'.$th->getMessage().'</span>
+                    </div>          
+                 ';
+                    }
+    }
 }

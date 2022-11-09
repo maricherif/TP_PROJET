@@ -9,20 +9,6 @@ if (isset($_POST['email'], $_POST['passwords'])) {
 
     $requeste->connecter($email, $passwords);
 }
-// $_SESSION['matricule'] =$utilisateur['matricule'];
-// $_SESSION['nom'] =$utilisateur['nom'];
-// $_SESSION['prenom'] =$utilisateur['prenom'];
-// $_SESSION['photo'] =$utilisateur['photo'];
-//  if($utilisateur['roles']=== 'administrateur'){
-//     $_SESSION['roles'] =$utilisateur['roles'];
-//     header('location: ./views/pages/admin.php');
-// }
-// if($utilisateur['roles']=== 'utilisateur');{
-//     $_SESSION['roles'] =$utilisateur['roles'];
-//     header('location: ./views/pages/employe.php');
-    
-// }  
-
     
 ?>
 
@@ -41,7 +27,8 @@ if (isset($_POST['email'], $_POST['passwords'])) {
 <body>
 
     <div class=" container d-flex justify-content-center mt-5">
-        <div class="col-md-8 ">
+<!--     <img src="./views/img/decor.png" alt="" >
+ -->        <div class="col-md-8 ">
 
             <div class="d-flex justify-content-center mt-5 ">
 

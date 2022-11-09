@@ -2,7 +2,7 @@
     require "../../model/model.php";
 
     if (isset($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['passwords'])) {
-
+// var_dump($_POST);die;
                                 
 
             $nom = ($_POST['nom']);

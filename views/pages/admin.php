@@ -8,7 +8,7 @@ if (isset($_GET['recherche'])) {
     $recherche = htmlspecialchars($_GET['recherche']);
 
     $utilisateur = "";
-    $req = $db->prepare('SELECT `id`, `matricule`, `nom`, `prenom`, `email`, `roles`, `passwords`, `photo`, `date_inscription`, `date_modification`, `date_archivage`, `role_etat`, `etat` FROM `utilisateur` WHERE `etat`=1 and `matricule` = "' . $recherche . '"');
+    $req = $db->prepare("SELECT `id`, `matricule`, `nom`, `prenom`, `email`, `roles`, `passwords`, `photo`, `date_inscription`, `date_modification`, `date_archivage`, `role_etat`, `etat` FROM `utilisateur` WHERE `etat`=1 and `matricule` like '%$recherche%' or `email` like '%$recherche%'");
     $req->execute(['matricule' => $recherche]);
     $utilisateur = $req->fetch();
  
@@ -33,11 +33,21 @@ if (isset($_GET['recherche'])) {
 <body>
 
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-success p-4 d-flex">
+        <nav class="navbar navbar-expand-lg navbar-light bg-success d-flex">
             <div class="container-fluid d-flex">
-                <span>
+                <span class="d-flex flex-column">
+                   <?php
+                   if(isset($_SESSION['photo']) && $_SESSION['photo']){
+                   ?>
+                   <a href="profil.php" title="Modifier profil">
+                    <img src="data:image/jpg;base64 ,<?php echo base64_encode($_SESSION['photo'])?>" class="rounded-circle" height="60" width="60">&nbsp;</a>
+                    <?php
+                   }else{
                    
-                    <img src="data:image/jpg;base64 ,<?php echo base64_encode($_SESSION['photo'])?>" class="rounded-circle" height="60" width="60">&nbsp;
+                   echo' <a href="profil.php"> <img src="../img/decor.png"  alt="image" width="54" height="54"></a>';
+                    
+                    
+                   } ?>
                     <em class="text-light"><b><?= $_SESSION['matricule'] ?></em></b>&nbsp;
                 </span>
                     
@@ -48,7 +58,7 @@ if (isset($_GET['recherche'])) {
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a href="deconect.php">
-                                <button type="button" class="btn btn-outline-success"><img src="../img/deconect.png" alt="deconnecter" width="30">Deconnecter</button>
+                                <button type="button" onclick = "return confirm(\'voulez vous vraiment deconnecter?\')" class="btn btn-outline-success "><img src="../img/deconect.png" alt="deconnecter" width="30">Deconnecter</button>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -119,15 +129,15 @@ if (isset($_GET['recherche'])) {
 
                 // Calcul du 1er article de la page
                 $premier = ($currentPage * $parPage) - $parPage;
-
-                $sql = $db->prepare( "SELECT * FROM utilisateur WHERE etat=*& ORDER BY id != :id  LIMIT $premier, $parPage");
+                $mat=$_SESSION['matricule'];
+                $sql = $db->prepare( "SELECT * FROM utilisateur WHERE etat=1 and matricule!='$mat' ORDER BY id   LIMIT $premier, $parPage");
                 $sql->execute();
 
                 ?>
                     <?php
                    
-                    $sql = $db->prepare('SELECT * FROM utilisateur where etat =1');
-                    $sql->execute();
+                    //$sql = $db->prepare('SELECT * FROM utilisateur where etat =1');
+                    //$sql->execute();
 
                     if (isset($existe ,$utilisateur) && $existe) {
 
@@ -220,12 +230,12 @@ if (isset($_GET['recherche'])) {
                     <ul class="pagination fixed-bottom justify-content-center">
                         <!-- Lien vers la page précédente (désactivé si on se trouve sur la 1ère page) -->
                         <li class="page-item <?= ($currentPage == 1) ? "disabled" : "" ?>">
-                            <a href="?page=<?= $currentPage - 1 ?>" class="page-link success"><img src="../img/precedent.png" alt="" width="30"  style="color: green;"height="20"></a>
+                            <a href="?page=<?= $currentPage - 1 ?>" class="page-link"><img src="../img/precedent.png" alt="" width="30"  style="color: green;"height="20"></a>
                         </li>
                         <?php for($page = 1; $page <= $pages; $page++): ?>
                           <!-- Lien vers chacune des pages (activé si on se trouve sur la page correspondante) -->
                           <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
-                                <a href="?page=<?= $page ?>" class="page-link"><?= $page ?></a>
+                                <a href="?page=<?= $page ?>" class="page-link "><?= $page ?></a>
                             </li>
                         <?php endfor ?>
                           <!-- Lien vers la page suivante (désactivé si on se trouve sur la dernière page) -->
@@ -241,4 +251,5 @@ if (isset($_GET['recherche'])) {
 
 </body>
 
+</style>
 </html>
