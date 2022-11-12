@@ -124,20 +124,20 @@ class ModelUser
                             
                             header("location:views/pages/employe.php");
                         } 
-                }  
-            }  else{
+                }  else{
+                    echo ' 
+                <p id="erreur" class="w-75 h-25 mb-5 fixed-top text-center border-none  h2 text-danger">
+                        Vous n\'avez pas de compte!
+                </p>
+    
+                ';
                 echo ' 
-            <p id="erreur" class="w-75 h-25 mb-5 m-5 fixed-bottom text-center border-none  h2 text-danger">
-                    Vous n\'avez pas de compte!
-            </p>
-
-            ';
-            echo ' 
-                            <script>
-                                 setTimeout(()=>{document.getElementById("erreur").remove()},2000);
-                                 </script> ';
-            }
-        
+                                <script>
+                                     setTimeout(()=>{document.getElementById("erreur").remove()},2000);
+                                     </script> ';
+                }
+            
+            }  
         }catch (\Throwable $th) {
             echo $th->getMessage();
         }
@@ -199,7 +199,7 @@ class ModelUser
           }else {
                 
             echo ' 
-                   <span id="erreurr" class="d-flex justify-content-center mt-2  text-danger"> Email existe déjà!</span>
+                   <span id="erreurr" class="d-flex justify-content-center mb-2 text-danger"> Email existe déjà!</span>
                    ';
            echo ' 
                    <script>
@@ -255,7 +255,7 @@ class ModelUser
         }
     }
    
-    public function profil($nom,$prenom,$email,$id, $emailPrecedent,$photo){
+   /*  public function profil($nom,$prenom,$email,$id, $emailPrecedent,$photo){
         try {
             
             $sql=$this->db->prepare('UPDATE  utilisateur SET nom=:nom, prenom=:prenom, email=:email, photo=:photo WHERE matricule=:id ');
@@ -272,7 +272,7 @@ class ModelUser
                 $sql->bindParam(":email", $email);
                 $sql->bindParam(":photo", $photo);
                 $sql->bindParam(":id", $id);
-               $sql->execute();
+                $sql->execute();
  
             echo ' 
             <span id="okk" class="w-75 h-25 m-5 d-flex justify-content-center border-none   text-success">
@@ -307,5 +307,5 @@ class ModelUser
                     </div>          
                  ';
                     }
-    }
+    } */
 }

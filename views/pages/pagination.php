@@ -32,7 +32,7 @@ $pages = ceil($nbUtilisateurs / $parPage);
 // Calcul du 1er article de la page
 $premier = ($currentPage * $parPage) - $parPage;
 
-$sql = $db->prepare( "SELECT * FROM utilisateur WHERE etat=*& ORDER BY id != $id DESC LIMIT $premier, $parPage;");
+$sql = $db->prepare( "SELECT * FROM utilisateur WHERE etat=1 ORDER BY id != $id DESC LIMIT $premier, $parPage;");
 $sql->execute();
 
 

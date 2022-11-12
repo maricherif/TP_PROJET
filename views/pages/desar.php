@@ -1,13 +1,20 @@
 <?php
     require "../../model/model.php";
     session_start();
+if(!isset($_SESSION["matricule"])){
+    header("location:../../index.php");
+    exit;
+
+}
+
     $db = new PDO('mysql:host=127.0.0.1;dbname=TPFormulaire;', 'root', '');
 if (isset($_GET['recherche'])) {
 
     $recherche = htmlspecialchars($_GET['recherche']);
 
     $utilisateur = "";
-    $req = $db->prepare("SELECT `id`, `matricule`, `nom`, `prenom`, `email`, `roles`, `passwords`, `photo`, `date_inscription`, `date_modification`, `date_archivage`, `role_etat`, `etat` FROM `utilisateur` WHERE `etat`=0 and `matricule` like '%$recherche%' or `email` like '%$recherche%'");
+    $mat=$_SESSION['matricule'];
+    $req = $db->prepare("SELECT `id`, `matricule`, `nom`, `prenom`, `email`, `roles`, `passwords`, `photo`, `date_inscription`, `date_modification`, `date_archivage`, `role_etat`, `etat` FROM `utilisateur` WHERE `etat`=0 and and matricule!='$mat' `matricule` like '%$recherche%' or `email` like '%$recherche%'");
     $req->execute(['matricule' => $recherche]);
     $utilisateur = $req->fetch();
  
@@ -38,7 +45,7 @@ if (isset($_GET['recherche'])) {
                     <?php
                    }else{
                    
-                   echo' <img src="../img/decor.png"  alt="image" width="54" height="54">';
+                   echo' <img src="../img/person.png"  alt="image" width="54" height="54">';
                     
                     
                    } ?>
@@ -59,7 +66,7 @@ if (isset($_GET['recherche'])) {
                         
                     </ul>
                     <form class="d-flex" action="desar.php" method="get">
-                        <input class="form-control me-2" type="search" name="recherche" placeholder="recherche par matricule" aria-label="Search">
+                        <input class="form-control me-2" type="search" name="recherche" placeholder="recherche par matricule " aria-label="Search">
                         <button class="btn btn-outline-light " type="submit">rechercher</button>
                      
                     </form>
@@ -67,7 +74,7 @@ if (isset($_GET['recherche'])) {
                 <?php    
                     if (isset($existe) && $existe) {
                        echo '<a href="desar.php">
-                       <button type="button" class="btn btn-outline-danger mt-3 border-0">Quitter </button>
+                       <button type="button" class="btn btn-outline-danger mt-3 p-1 "><img src="../img/quit.png" alt="quitter" width="30"></button>
                    </a>';
                     }
                 ?>
@@ -151,7 +158,7 @@ if (isset($_GET['recherche'])) {
                             <td>' . $date_archivage . '</td>
                             <td>
                             <form action="mod_employer.php" method="post">
-                            <input type="hidden" name="id_emd" value="'.$matricule.'">
+                            <input type="hidden" name="id" value="'.$matricule.'">
                             <button type="submit" onclick = "return confirm(\'voulez vous vraiment désarchiver?\')"name="'.$matricule.'" class="btn btn-outline-success">
                                 <img src="../img/desarchiv.png" alt="" width="30" height="20"
                             </button>
@@ -161,7 +168,7 @@ if (isset($_GET['recherche'])) {
                        } else {
                         echo ' 
                         <span id="ok" class="w-75 h-25 mb-2 h1 d-flex justify-content-center border-none t  text-danger">
-                                Le matricule recherché n\'est attribuer à aucun utilisateur  !
+                        L\'utilisateur recherché ne figure pas sur cette liste !
                         </span>
 
                     ';
@@ -183,7 +190,7 @@ if (isset($_GET['recherche'])) {
 
                             <td>
                         <form action="mod_employer.php" method="post">
-                        <input type="hidden" name="id_emd" value="'.$matricule.'">
+                        <input type="hidden" name="id" value="'.$matricule.'">
                         <button type="submit" onclick = "return confirm(\'voulez vous vraiment désarchiver?\')"name="'.$matricule.'" class="btn btn-outline-success">
                             <img src="../img/desarchiv.png" alt="" width="30" height="20"
                         </button>
@@ -200,7 +207,7 @@ if (isset($_GET['recherche'])) {
             </table>
                     <ul class="nav-item">
                             <a href="admin.php">
-                                <button type="button" class="btn btn-outline-success mb-auto">Retour </button></a>
+                                <button type="button" class="btn btn-outline-success mb-auto">Retour</button></a>
                         </ul>
              
                         <nav>

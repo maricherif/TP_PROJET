@@ -1,6 +1,11 @@
 <?php
 require "../../model/model.php";
 session_start();
+if(!isset($_SESSION["matricule"])){
+    header("location:../../index.php");
+    exit;
+
+}
 $db = new PDO('mysql:host=127.0.0.1;dbname=TPFormulaire;', 'root', '');
 
 if (isset($_GET['recherche'])) {
@@ -8,7 +13,8 @@ if (isset($_GET['recherche'])) {
     $recherche = htmlspecialchars($_GET['recherche']);
 
     $utilisateur = "";
-    $req = $db->prepare("SELECT `id`, `matricule`, `nom`, `prenom`, `email`, `roles`, `passwords`, `photo`, `date_inscription`, `date_modification`, `date_archivage`, `role_etat`, `etat` FROM `utilisateur` WHERE `etat`=1 and `matricule` like '%$recherche%' or `email` like '%$recherche%'");
+    $mat=$_SESSION['matricule'];
+    $req = $db->prepare("SELECT `id`, `matricule`, `nom`, `prenom`, `email`, `roles`, `passwords`, `photo`, `date_inscription`, `date_modification`, `date_archivage`, `role_etat`, `etat` FROM `utilisateur` WHERE `etat`=1 and matricule!='$mat' and `matricule` like '%$recherche%'");
     $req->execute(['matricule' => $recherche]);
     $utilisateur = $req->fetch();
  
@@ -44,7 +50,7 @@ if (isset($_GET['recherche'])) {
                     <?php
                    }else{
                    
-                   echo' <a href="profil.php"> <img src="../img/decor.png"  alt="image" width="54" height="54"></a>';
+                   echo' <a href=""> <img src="../img/person.png"  alt="image" width="54" height="54"></a>';
                     
                     
                    } ?>
@@ -58,7 +64,7 @@ if (isset($_GET['recherche'])) {
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a href="deconect.php">
-                                <button type="button" onclick = "return confirm(\'voulez vous vraiment deconnecter?\')" class="btn btn-outline-success "><img src="../img/deconect.png" alt="deconnecter" width="30">Deconnecter</button>
+                                <button type="button" class="btn btn-outline-success "><img src="../img/deconect.png" alt="deconnecter" width="30">Deconnecter</button>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -68,14 +74,14 @@ if (isset($_GET['recherche'])) {
                         </li>
                     </ul>
                     <form class="d-flex" action="admin.php" method="get">
-                        <input class="form-control me-2" type="search"  name="recherche" placeholder="recherche par matricule" required aria-label="Search">
+                        <input class="form-control me-2" type="search"  name="recherche" placeholder="recherche par matricule " required aria-label="Search">
                         <button class="btn btn-outline-light" value='.$id.' type="submit">rechercher</button>
                     </form>
                     <ul class="nav-item ">
                 <?php    
                     if (isset($existe) && $existe) {
                        echo '<a href="admin.php">
-                       <button type="button" class="btn btn-outline-danger mt-3 border-0">Quitter </button>
+                       <button type="button" class="btn btn-outline-danger mt-3 p-1 "><img src="../img/quit.png" alt="quitter" width="30"></button>
                    </a>';
                     }
                 ?>
@@ -178,7 +184,7 @@ if (isset($_GET['recherche'])) {
                        } else {
                         echo ' 
                         <span id="ok" class="w-75 h-25 mb-2 h1 d-flex justify-content-center border-none t  text-danger">
-                                Le matricule recherché n\'est attribuer à aucun utilisateur  !
+                                L\'utilisateur recherché ne figure pas sur cette liste !
                         </span>
 
                     ';
@@ -230,7 +236,7 @@ if (isset($_GET['recherche'])) {
                     <ul class="pagination fixed-bottom justify-content-center">
                         <!-- Lien vers la page précédente (désactivé si on se trouve sur la 1ère page) -->
                         <li class="page-item <?= ($currentPage == 1) ? "disabled" : "" ?>">
-                            <a href="?page=<?= $currentPage - 1 ?>" class="page-link"><img src="../img/precedent.png" alt="" width="30"  style="color: green;"height="20"></a>
+                            <a href="?page=<?= $currentPage - 1 ?>" class="page-link"><img src="../img/precedent.png" alt="" width="30" height="20"></a>
                         </li>
                         <?php for($page = 1; $page <= $pages; $page++): ?>
                           <!-- Lien vers chacune des pages (activé si on se trouve sur la page correspondante) -->
@@ -250,6 +256,15 @@ if (isset($_GET['recherche'])) {
     </main>
 
 </body>
+<em class="fixed-bottom fw-lighter">By marie_cherif_sow <img src="../img/person.png" alt="" width="20"></em>
 
 </style>
 </html>
+
+
+
+
+
+
+
+

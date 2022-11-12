@@ -3,7 +3,7 @@
     $requeste = new ModelUser();
     if (isset($_GET['id'])){
         $id=($_GET['id']);
-        $user = $requeste->getUser2($id);
+        $user = $requeste->getUser($id);
      }
     if (isset($_POST['nom'],$_POST['prenom'],$_POST['email'])) {
 
@@ -14,7 +14,7 @@
             $email=$_POST['email'];
             $photo=file_get_contents($_FILES['photo']['tmp_name'])?? null;
             $id = $_POST['matricule'];
-            $requeste->profil($nom,$prenom,$email,$id,$photo, $user['email']);
+            //$requeste->profil($nom,$prenom,$email,$id,$photo, $user['email']);
             
             
 }

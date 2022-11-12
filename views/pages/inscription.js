@@ -42,6 +42,7 @@ return false;
     erreur_email2.classList.remove("d-flex")
     erreur_email2.classList.remove("d-none")
     email.style.border= "1px solid black"
+
   }
   const resetPasswords = () =>{
     erreur_passwords.classList.remove("d-flex")
@@ -151,7 +152,7 @@ return false;
 
   submit.addEventListener("click",(e) => {
     console.log("clicked");
-  if((!checkemail() && !checkpasswords() && !checkpasswords2() && !checknom() && !checkprenom() && !checkroles() /*  && !checkconfirm() */ ) || !checkemail() || !checkpasswords() || !checkpasswords2() || !checknom() || !checkprenom() || !checkroles() /* || !checkconfirm() */ ){
+  if((!checkemail() && !checkpasswords() && !checkpasswords2() && !checknom() && !checkprenom() && !checkroles() ) || !checkemail() || !checkpasswords() || !checkpasswords2() || !checknom() || !checkprenom() || !checkroles()){
     e.preventDefault()
   }
 

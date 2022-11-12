@@ -13,8 +13,8 @@ exit;
 
 $requete = new ModelUser();
 
-if (isset($_POST['id_emd'])) {
-    $matricule = $_POST['id_emd'];
+if (isset($_POST['id'])) {
+    $matricule = $_POST['id'];
     $requete->desarchiveUser($matricule);
 
 }
